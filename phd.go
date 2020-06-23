@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/gocolly/colly/v2"
+	"github.com/golang/glog"
 	"github.com/googege/gotools/id"
 	"os/exec"
 	"regexp"
@@ -30,6 +31,7 @@ func main() {
 }
 
 func do(root string) {
+	fmt.Println("测试",root,name,number)
 	url := make(chan string)
 	getDownloadUrl(root, url)
 	//
@@ -74,7 +76,6 @@ func getDownloadUrl(root string, downloadUrl chan string) {
 		co.OnHTML("a[href]", func(element *colly.HTMLElement) {
 			a := re.Find([]byte(element.Attr("href")))
 			if len(a) != 0 {
-
 				if _, ok := ma[string(a)]; !ok {
 					d := fmt.Sprintf("https://www.xvideos.com%s", string(a))
 					result = append(result, d)
@@ -82,7 +83,9 @@ func getDownloadUrl(root string, downloadUrl chan string) {
 				ma[string(a)]++
 			}
 		})
-		co.Visit(root)
+		if err := co.Visit(root);err != nil {
+			glog.Error(err," "+root)
+		}
 		for k, v := range result {
 			if k <= number {
 				downloadUrl <- v
