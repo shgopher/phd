@@ -125,6 +125,6 @@ func downloadVedio(url string) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("download info is :",out)
+	fmt.Println("download info is :",string(out))
 	cmd.Run()
 }
