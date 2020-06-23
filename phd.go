@@ -31,7 +31,6 @@ func main() {
 }
 
 func do(root string) {
-	fmt.Println("测试",root,name,number)
 	url := make(chan string)
 	getDownloadUrl(root, url)
 	//
